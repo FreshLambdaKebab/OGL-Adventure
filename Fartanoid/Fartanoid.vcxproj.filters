@@ -8,5 +8,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\GameScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\GameScene.h" />
   </ItemGroup>
 </Project>

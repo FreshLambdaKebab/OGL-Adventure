@@ -1,5 +1,6 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
+#include "Window.h"
 
 //window properties
 GLuint SCREEN_WIDTH = 800, SCREEN_HEIGHT = 600;
@@ -8,21 +9,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 int main(int argc, char* argv[])
 {
-	//initialize GLFW
-	glfwInit();
-	// Set all the required options for GLFW (opengl 3.3)
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-	glfwWindowHint(GLFW_SAMPLES, 4);
+	//create the window objet
+	Window window;
 
-	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Fartanoid (Arkanoid clone). Version 0.1", nullptr, nullptr);
-	glfwMakeContextCurrent(window);
+	window.Create(SCREEN_WIDTH, SCREEN_HEIGHT, "Fartanoid (Arkanoid clone). Version 0.1");
 
 	// Set the required callback functions
-	glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback(window.GetWindow(), key_callback);
 
 	// set to true to use modern opengl functions
 	glewExperimental = GL_TRUE;
@@ -40,7 +33,7 @@ int main(int argc, char* argv[])
 	GLfloat lastFrame = 0.0f;
 
 	//main game loop
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(window.GetWindow()))
 	{
 		//calcualte delta time of current frame
 		GLfloat currentFrame = glfwGetTime();
@@ -48,13 +41,12 @@ int main(int argc, char* argv[])
 		lastFrame = currentFrame;
 		glfwPollEvents();
 
-		//render
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		window.Render(0.0f, 0.0f, 0.5f, 1.0f);
+		//render game here
 
-		//swap the screen buffers
-		glfwSwapBuffers(window);
+		window.SwapBuffers();
 	}
+	//clear out resources here
 
 	glfwTerminate();
 	return 0;
