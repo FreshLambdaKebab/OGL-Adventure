@@ -10,7 +10,7 @@
 #include "Camera.h"
 
 // Properties
-GLuint WIDTH = 800, HEIGHT = 600;
+GLuint SCREEN_WIDTH = 800, SCREEN_HEIGHT = 600;
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -44,7 +44,7 @@ int main()
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Ebati window jebemti mater plemeto", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ebati window jebemti mater plemeto", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	// Set the required callback functions
@@ -60,7 +60,7 @@ int main()
 	glewInit();
 
 	// Define the viewport dimensions
-	glViewport(0, 0, WIDTH, HEIGHT);
+	glViewport(0, 0,SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -158,19 +158,19 @@ int main()
 
 		// Activate corresponding shader
 		lightingShader.Use();
-		GLint objectColorLoc = glGetUniformLocation(lightingShader.programID, "objectColor");
-		GLint lightColorLoc = glGetUniformLocation(lightingShader.programID, "lightColor");
+		GLint objectColorLoc = glGetUniformLocation(lightingShader.GetProgramID(), "objectColor");
+		GLint lightColorLoc = glGetUniformLocation(lightingShader.GetProgramID(), "lightColor");
 		glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
 		glUniform3f(lightColorLoc, 1.0f, 0.5f, 1.0f);
 
 		//create camera transformation
 		glm::mat4 view;
 		view = camera.GetViewMatrix();
-		glm::mat4 projection = glm::perspective(camera.Zoom, (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(camera.GetZoom(), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 		// Get their uniform location
-		GLint modelLoc = glGetUniformLocation(lightingShader.programID, "model");
-		GLint viewLoc = glGetUniformLocation(lightingShader.programID, "view");
-		GLint projLoc = glGetUniformLocation(lightingShader.programID, "projection");
+		GLint modelLoc = glGetUniformLocation(lightingShader.GetProgramID(), "model");
+		GLint viewLoc = glGetUniformLocation(lightingShader.GetProgramID(), "view");
+		GLint projLoc = glGetUniformLocation(lightingShader.GetProgramID(), "projection");
 		// Pass the matrices to the shaders
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -185,9 +185,9 @@ int main()
 		//also draw the lamp object(binding the correct shader!)
 		lampShader.Use();
 		//get the location objects on the lamp shader
-		modelLoc = glGetUniformLocation(lampShader.programID, "model");
-		viewLoc = glGetUniformLocation(lampShader.programID, "view");
-		projLoc = glGetUniformLocation(lampShader.programID, "projection");
+		modelLoc = glGetUniformLocation(lampShader.GetProgramID(), "model");
+		viewLoc = glGetUniformLocation(lampShader.GetProgramID(), "view");
+		projLoc = glGetUniformLocation(lampShader.GetProgramID(), "projection");
 		//set matrices
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));

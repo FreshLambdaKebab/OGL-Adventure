@@ -15,8 +15,10 @@ public:
 
 	void Use();
 
-	GLuint programID;
+	GLuint GetProgramID()const { return m_programID; }
+
 private:
+	GLuint m_programID;
 
 };
 
